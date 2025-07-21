@@ -12,7 +12,7 @@ import TangemSdk_secp256k1
 typealias Secp256k1SignatureComponents = (r: Data, s: Data, v: Data)
 
 public final class Secp256k1Utils {
-    private let context: OpaquePointer
+    let context: OpaquePointer
     
     public init() {
         context = secp256k1_context_create(UInt32(SECP256K1_CONTEXT_NONE))
@@ -130,7 +130,7 @@ public final class Secp256k1Utils {
         return try serializePublicKey(&publicKey, compressed: compressed)
     }
 
-    func createXOnlyPublicKey(privateKey: Data) throws -> Data {
+    public func createXOnlyPublicKey(privateKey: Data) throws -> Data {
         let privateKey = privateKey.toBytes
 
         guard secp256k1_ec_seckey_verify(context, privateKey) == 1 else {
